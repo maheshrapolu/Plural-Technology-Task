@@ -1,0 +1,133 @@
+<div class="card m-2">
+    <h2 class="heading mb-5">Inline editable table</h2>
+    <form [formGroup]="detailsForm">
+        <table class="table table-bordered m-2">
+            <thead>
+                <th></th>
+                <th>Frist Name</th>
+                <th>Last Name</th>
+                <th>Date Of Birth</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of tabledataarray let i = index">
+                    <td><input type="checkbox" (change)="selecteddata($event,data.id)"></td>
+                    <td><input type="text" class="form-control" formControlName="firstName"
+                            *ngIf="data.isEditable"><span *ngIf="!data.isEditable">{{data.firstName}}</span>
+                        <div *ngIf="detailsForm.controls.firstName.touched && detailsForm.controls.firstName.errors && data.isEditable">
+                            <div *ngIf="detailsForm.controls.firstName.errors.required" class="text-danger">First Name
+                                is required</div>
+                                <div *ngIf="detailsForm.controls.firstName.errors.maxlength" class="text-danger">name should be less than 50 charecters</div>
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="lastName" *ngIf="data.isEditable"><span
+                            *ngIf="!data.isEditable">{{data.lastName}}</span>
+                        <div *ngIf="detailsForm.controls.lastName.touched && detailsForm.controls.lastName.errors && data.isEditable">
+                            <div *ngIf="detailsForm.controls.lastName.errors.required" class="text-danger">Last Name is
+                                required</div>
+                                <div *ngIf="detailsForm.controls.lastName.errors.maxlength" class="text-danger">name should be less than 30 charecters</div>
+                        </div>
+                    </td>
+                    <td><input type="date" class="form-control" formControlName="dateOfBirth"
+                            *ngIf="data.isEditable"><span *ngIf="!data.isEditable">{{data.dateOfBirth}}</span>
+                        <div
+                            *ngIf="detailsForm.controls.dateOfBirth.touched && detailsForm.controls.dateOfBirth.errors && data.isEditable">
+                            <div *ngIf="detailsForm.controls.dateOfBirth.errors.required" class="text-danger">Date of
+                                birth is required</div>
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="mobile" *ngIf="data.isEditable"><span
+                            *ngIf="!data.isEditable">{{data.mobile}}</span>
+                        <div *ngIf="detailsForm.controls.mobile.touched && detailsForm.controls.mobile.errors && data.isEditable">
+                            <div *ngIf="detailsForm.controls.mobile.errors.required" class="text-danger">Mobile number
+                                is required</div>
+                            <div *ngIf="detailsForm.controls.mobile.errors.pattern" class="text-danger">Mobile number
+                                should be valid</div>
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="email" *ngIf="data.isEditable"><span
+                            *ngIf="!data.isEditable">{{data.email}}</span>
+                        <div *ngIf="detailsForm.controls.email.touched && detailsForm.controls.email.errors && data.isEditable">
+                            <div *ngIf="detailsForm.controls.email.errors.required" class="text-danger">Email is
+                                required</div>
+                            <div *ngIf="detailsForm.controls.email.errors.email" class="text-danger">Email should be
+                                valid</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="!data.isEditable">
+                            <button class="btn btn-primary mx-2" (click)="deletedata(data.id)">delete</button>
+                            <button class="btn btn-primary mx-2" (click)="data.isEditable =!data.isEditable"
+                                (click)="setData(data)">edit</button>
+                        </div>
+                        <div *ngIf="data.isEditable">
+                            <button class="btn btn-primary mx-2" (click)="updatedata(data.id)">Update</button>
+                            <button class="btn btn-primary mx-2"
+                                (click)="data.isEditable =!data.isEditable">cancel</button>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr *ngIf="addRow">
+                    <td></td>
+                    <td><input type="text" class="form-control" formControlName="firstName"
+                            placeholder="enter first name">
+                        <div *ngIf="detailsForm.controls.firstName.touched && detailsForm.controls.firstName.errors">
+                            <div *ngIf="detailsForm.controls.firstName.errors.required" class="text-danger">First Name
+                                is required</div>
+                                <div *ngIf="detailsForm.controls.firstName.errors.maxlength" class="text-danger">name should be less than 50 charecters</div>
+                                
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="lastName"
+                            placeholder="enter last name">
+                        <div *ngIf="detailsForm.controls.lastName.touched && detailsForm.controls.lastName.errors">
+                            <div *ngIf="detailsForm.controls.lastName.errors.required" class="text-danger">Last Name is
+                                required</div>
+                                <div *ngIf="detailsForm.controls.lastName.errors.maxlength" class="text-danger">name should be less than 30 charecters</div>
+                        </div>
+                    </td>
+                    <td><input type="date" class="form-control" formControlName="dateOfBirth"
+                            placeholder="enter date of birth">
+                        <div
+                            *ngIf="detailsForm.controls.dateOfBirth.touched && detailsForm.controls.dateOfBirth.errors">
+                            <div *ngIf="detailsForm.controls.dateOfBirth.errors.required" class="text-danger">Date of
+                                birth is required</div>
+                        </div>
+                    </td>
+
+                    <td><input type="text" class="form-control" formControlName="mobile" placeholder="enter mobile">
+                        <div *ngIf="detailsForm.controls.mobile.touched && detailsForm.controls.mobile.errors">
+                            <div *ngIf="detailsForm.controls.mobile.errors.required" class="text-danger">Mobile number
+                                is required</div>
+                            <div *ngIf="detailsForm.controls.mobile.errors.pattern" class="text-danger">Mobile number
+                                should be valid</div>
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" formControlName="email" placeholder="enter email">
+                        <div *ngIf="detailsForm.controls.email.touched && detailsForm.controls.email.errors">
+                            <div *ngIf="detailsForm.controls.email.errors.required" class="text-danger">Email is
+                                required</div>
+                            <div *ngIf="detailsForm.controls.email.errors.email" class="text-danger">Email should be
+                                valid</div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="m-2 row">
+        <div>
+            <button class="btn btn-primary m-2" (click)="addRow =!addRow">Add New</button>
+            <button class="btn btn-primary m-2">Edit</button>
+            <button class="btn btn-primary m-2" (click)="multipledelete()">Delete</button>
+        </div>
+        <div class="ml-auto" *ngIf="addRow">
+            <button class="btn btn-primary m-2" (click)="savedata()" [disabled]="detailsForm.invalid">Save</button>
+            <button class="btn btn-primary m-2" (click)="addRow =!addRow">Cancel</button>
+        </div>
+    </div>
+</div>
